@@ -8,6 +8,10 @@ import Footer from './components/Footer'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminManageUsers from './pages/AdminManageUsers'
+import AdminManageRestaurants from './pages/AdminManageRestaurants'
+import AdminManageAllOrders from './pages/AdminManageAllOrders'
 
 function App() {
 
@@ -20,6 +24,12 @@ function App() {
             <Route path='/contact' element={<Contact/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
+
+            {/* Admin Routes */}
+            <Route path='/admin' element={<AdminDashboard/>}/>
+            <Route path='/admin-users' element={<AdminManageUsers/>}/>
+            <Route path='/admin-restaurants' element={<AdminManageRestaurants/>}/>
+            <Route path='/admin-orders' element={<AdminManageAllOrders/>}/>
         </Routes>
         <Footer/>
 
