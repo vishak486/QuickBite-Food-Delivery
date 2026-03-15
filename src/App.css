@@ -1,38 +1,48 @@
-body { overflow-x: hidden; }
+:root {
+  --admin: #6366f1;
+}
 
-    /* Accent color: indigo/violet for admin — distinct from customer orange */
-    :root { --admin: #6366f1; --admin-dk: #4f46e5; }
-    .text-admin    { color: var(--admin) !important; }
-    .bg-admin      { background-color: var(--admin) !important; }
-    .btn-admin     { background-color: var(--admin); border-color: var(--admin); color: #fff; }
-    .btn-admin:hover { background-color: var(--admin-dk); border-color: var(--admin-dk); color: #fff; }
-    .btn-outline-admin { color: var(--admin); border-color: var(--admin); background: transparent; }
-    .btn-outline-admin:hover { background-color: var(--admin); color: #fff; }
-    .form-control:focus, .form-select:focus { border-color: var(--admin); box-shadow: 0 0 0 0.2rem rgba(99,102,241,.2); }
-    .nav-pills .nav-link.active { background-color: var(--admin); }
-    .sidebar-link.active { background: rgba(99,102,241,.15); color: var(--admin) !important; border-left: 3px solid var(--admin); }
-    .sidebar-link { border-left: 3px solid transparent; }
+.text-admin { color: var(--admin) !important; }
+.bg-admin { background-color: var(--admin) !important; }
 
-    /* Sidebar */
-    #sidebar {
-      width: 240px; min-height: 100vh;
-      background: #111; border-right: 1px solid rgba(255,255,255,.08);
-      position: fixed; top: 0; left: 0; z-index: 100;
-      transition: transform .3s;
-    }
-    #sidebar.hidden { transform: translateX(-240px); }
-    .main-content {
-      margin-left: 240px;
-      transition: margin-left .3s;
-    }
-    .main-content.full { margin-left: 0; }
+/* Sidebar */
+#sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: #111;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
 
-    /* page show/hide */
-    .page { display: none; }
-    .page.active { display: block; }
+/* Main content sits beside sidebar */
+.main-content {
+  margin-left: 240px;
+  min-height: 100vh;
+  background: #0f0f0f;
+}
 
-    @media (max-width: 991px) {
-      #sidebar { transform: translateX(-240px); }
-      #sidebar.show { transform: translateX(0); }
-      .main-content { margin-left: 0; }
-    }
+/* Active sidebar link */
+.sidebar-link.active {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--admin) !important;
+  border-left: 3px solid var(--admin);
+}
+
+.sidebar-link {
+  border-left: 3px solid transparent;
+}
+
+@media (max-width: 991px) {
+  #sidebar {
+    transform: translateX(-240px);
+    transition: transform 0.3s;
+  }
+
+  /* when sidebarOpen is true, inline style overrides this */
+  .main-content {
+    margin-left: 0;
+  }
+}

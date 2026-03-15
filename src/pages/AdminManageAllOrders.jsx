@@ -4,7 +4,7 @@ import AdminSidebar from '../components/AdminSidebar'
 const AdminManageAllOrders = () => {
   return (
     <>
-    <AdminSidebar/>
+    <AdminSidebar title="All Orders"/>
     <div className="main-content">
                  {/* ════ ALL ORDERS PAGE ════ */}
       <div id="page-orders" className="page p-4">

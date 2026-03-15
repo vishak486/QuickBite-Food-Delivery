@@ -4,9 +4,9 @@ import AdminSidebar from '../components/AdminSidebar'
 const AdminManageUsers = () => {
   return (
     <>
-    <AdminSidebar/>
+    <AdminSidebar title="Users"/>
     <div className="main-content">
-         {/* ════ USERS PAGE ════ */}
+     {/* ════ USERS PAGE ════ */}
       <div id="page-users" className="page p-4">
         <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h6 className="fw-bold mb-0">All Users</h6>
@@ -76,6 +76,7 @@ const AdminManageUsers = () => {
         </div>
       </div>
     </div>
+
     </>
   )
 }

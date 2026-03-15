@@ -4,7 +4,7 @@ import AdminSidebar from '../components/AdminSidebar'
 const AdminManageRestaurants = () => {
   return (
     <>
-    <AdminSidebar/>
+    <AdminSidebar title="Restaurants"/>
     <div className="main-content">
              {/* ════ RESTAURANTS PAGE ════ */}
       <div id="page-restaurants" className="page p-4">

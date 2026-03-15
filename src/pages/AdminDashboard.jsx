@@ -4,23 +4,9 @@ import AdminSidebar from '../components/AdminSidebar'
 const AdminDashboard = () => {
   return (
     <>
-    <AdminSidebar/>
+    <AdminSidebar title="Dashboard"/>
     <div className="main-content">
-        {/* Topbar */}
-        <div className="bg-dark border-bottom border-secondary px-4 py-3 d-flex justify-content-between align-items-center sticky-top">
-          <div className="d-flex align-items-center gap-3">
-            <button className="btn btn-sm btn-outline-secondary d-lg-none" onclick="toggleSidebar()">
-              <i className="bi bi-list fs-5" />
-            </button>
-            <div id="page-title" className="fw-bold">Dashboard</div>
-          </div>
-          <div className="d-flex align-items-center gap-3">
-            <span className="badge bg-admin px-3 py-2 rounded-pill">Admin</span>
-            <div className="rounded-circle bg-admin d-flex align-items-center justify-content-center" style={{width: '34px', height: '34px'}}>
-              <i className="bi bi-person-fill text-white" />
-            </div>
-          </div>
-        </div>
+
          {/* ════ DASHBOARD PAGE ════ */}
       <div id="page-dashboard" className="page active p-4">
         <div className="row g-3 mb-4">

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import Header from './components/Header'
@@ -12,12 +12,17 @@ import AdminDashboard from './pages/AdminDashboard'
 import AdminManageUsers from './pages/AdminManageUsers'
 import AdminManageRestaurants from './pages/AdminManageRestaurants'
 import AdminManageAllOrders from './pages/AdminManageAllOrders'
+import ProtectedRoute from './components/ProtectedRoute'
+import AdminManageCategories from './pages/AdminManageCategories'
+
 
 function App() {
+  const location=useLocation()
+  const hideLayout=location.pathname.startsWith('/admin') ||location.pathname.startsWith('/restaurant')
 
   return (
     <>
-        <Header/>
+        {!hideLayout &&<Header/>}
         <Routes>
             <Route path='/' element={<Home/>} />
             <Route path='/about' element={<About/>}/>
@@ -26,12 +31,14 @@ function App() {
             <Route path='/register' element={<Register/>}/>
 
             {/* Admin Routes */}
-            <Route path='/admin' element={<AdminDashboard/>}/>
-            <Route path='/admin-users' element={<AdminManageUsers/>}/>
-            <Route path='/admin-restaurants' element={<AdminManageRestaurants/>}/>
-            <Route path='/admin-orders' element={<AdminManageAllOrders/>}/>
+            <Route path='/admin' element={<ProtectedRoute allowedRole="admin"><AdminDashboard/></ProtectedRoute>}/>
+            <Route path='/admin-users' element={<ProtectedRoute allowedRole="admin"><AdminManageUsers/></ProtectedRoute>}/>
+            <Route path='/admin-restaurants' element={<ProtectedRoute allowedRole="admin"><AdminManageRestaurants/></ProtectedRoute>}/>
+            <Route path='/admin-orders' element={<ProtectedRoute allowedRole="admin"><AdminManageAllOrders/></ProtectedRoute>}/>
+            <Route path='/admin-categories' element={<ProtectedRoute allowedRole="admin"><AdminManageCategories/></ProtectedRoute>}/>
+
         </Routes>
-        <Footer/>
+        {!hideLayout && <Footer/>}
 
     </>
   )
