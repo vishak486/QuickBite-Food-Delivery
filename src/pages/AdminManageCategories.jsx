@@ -2,7 +2,9 @@ import React, { useEffect } from 'react'
 import AdminSidebar from '../components/AdminSidebar'
 import { useDispatch, useSelector } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
-import { fetchAllCategories } from '../redux/slices/categorySlice'
+import { activateCategory, deactivateCategory, fetchAllCategories } from '../redux/slices/categorySlice'
+import AdminAddCategories from '../components/AdminAddCategories'
+import AdminEditCategories from '../components/AdminEditCategories'
 
 const AdminManageCategories = () => {
     const dispatch=useDispatch()
@@ -11,6 +13,15 @@ console.log(categoryList);
 useEffect(()=>{
     dispatch(fetchAllCategories())
 },[])
+
+const handleStatusChange = async (category, newStatus) => {
+  if (newStatus === 'Active') {
+    await dispatch(activateCategory(category._id))
+  } else {
+    await dispatch(deactivateCategory(category._id))
+  }
+  dispatch(fetchAllCategories())
+}
 
   return (
     <>
@@ -25,12 +36,7 @@ useEffect(()=>{
               <h6 className="fw-bold mb-0">Manage Categories</h6>
               <small className="text-secondary">Add and manage food categories</small>
             </div>
-            <button
-              className="btn btn-sm px-3 py-2 fw-bold"
-              style={{ backgroundColor: 'var(--admin)', color: '#fff', border: 'none' }}
-            >
-              <i className="bi bi-plus-lg me-1" /> Add Category
-            </button>
+            <AdminAddCategories/>
           </div>
 
           {/* Table */}
@@ -61,15 +67,17 @@ useEffect(()=>{
                             <td className="small fw-semibold">{category.name}</td>
                             <td className="small text-secondary">{category.description}</td>
                             <td>
-                            <select className="form-select form-select-sm bg-dark text-light border-secondary" style={{ width: 'auto' }}>
-                                <option>Active</option>
-                                <option>Inactive</option>
+                            <select className="form-select form-select-sm bg-dark text-light border-secondary" style={{ width: 'auto' }}
+                            value={category.isActive ? 'Active' : 'Inactive'}
+                            onChange={(e) => handleStatusChange(category, e.target.value)}
+                            >
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
                             </select>
                             </td>
                             <td>
                             <div className="d-flex gap-2">
-                                <button className="btn btn-outline-secondary btn-sm"><i className="bi bi-pencil" /></button>
-                                <button className="btn btn-danger btn-sm"><i className="bi bi-trash" /></button>
+                              <AdminEditCategories category={category}/>
                             </div>
                             </td>
                         </tr>
@@ -81,7 +89,13 @@ useEffect(()=>{
           </div>
             )
           }
-
+        {categoryList.length === 0 && !loading && (
+            <tr>
+              <td colSpan="5" className="text-center text-secondary py-4">
+                No categories found
+              </td>
+            </tr>
+          )}
 
         </div>
       </div>
