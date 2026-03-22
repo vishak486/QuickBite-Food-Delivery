@@ -1,7 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AdminSidebar from '../components/AdminSidebar'
+import { useDispatch, useSelector } from 'react-redux'
+import { FetchAllUsers } from '../redux/slices/userSlice'
+import { Spinner } from 'react-bootstrap'
+import { approveRestaurantAdmin, rejectRestaurantAdmin } from '../redux/slices/adminDashboardSlice'
 
 const AdminDashboard = () => {
+  const dispatch=useDispatch()
+  const {userList,loading}=useSelector((state)=>state.user)
+
+  const pendingRestAdmins=userList.filter(
+    (user)=>user.role==="restaurant_admin"&&user.isApproved===false
+  )
+  console.log(userList);
+  
+  useEffect(()=>{
+   dispatch( FetchAllUsers())
+  },[])
+   const handleApprove = async (id) => {
+    await dispatch(approveRestaurantAdmin(id))
+    dispatch(FetchAllUsers({ role: 'restaurant_admin' }))
+  }
+
+  const handleReject = async (id) => {
+    await dispatch(rejectRestaurantAdmin(id))
+    dispatch(FetchAllUsers({ role: 'restaurant_admin' }))
+  }
   return (
     <>
     <AdminSidebar title="Dashboard"/>
@@ -64,41 +88,39 @@ const AdminDashboard = () => {
           <div className="col-lg-6">
             <div className="card bg-dark border p-3">
               <div className="d-flex justify-content-between align-items-center mb-3">
-                <h6 className="fw-bold mb-0">Pending Restaurant Approvals</h6>
-                <a href="#" className="btn btn-outline-secondary btn-sm" onclick="show('restaurants')">View All</a>
+                <h6 className="fw-bold text-white mb-0">Pending Restaurant Admin Approvals</h6>
               </div>
+              {
+                loading?(
+                  <div className="text-center py-3">
+                    <Spinner animation="border" variant="secondary" size="sm" />
+                  </div>
+                )
+                :pendingRestAdmins.length>0?(
               <div className="d-flex flex-column gap-2">
-                <div className="d-flex justify-content-between align-items-center p-2 rounded-2 border border-secondary">
+                {
+                  pendingRestAdmins.map(user=>(
+                     <div key={user._id} className="d-flex justify-content-between align-items-center p-2 rounded-2 border border-secondary">
                   <div>
-                    <div className="small fw-semibold">Spice Garden</div>
-                    <small className="text-secondary">Indian · Submitted 2 hrs ago</small>
+                    <div className="small fw-semibold">{user.name}</div>
+                    <small className="text-secondary">{user.email}</small>
                   </div>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-success btn-sm"><i className="bi bi-check-lg" /></button>
-                    <button className="btn btn-danger btn-sm"><i className="bi bi-x-lg" /></button>
+                    <button onClick={()=>handleApprove(user._id)} className="btn btn-success btn-sm"><i className="bi bi-check-lg" /></button>
+                    <button onClick={()=>handleReject(user._id)} className="btn btn-danger btn-sm"><i className="bi bi-x-lg" /></button>
                   </div>
                 </div>
-                <div className="d-flex justify-content-between align-items-center p-2 rounded-2 border border-secondary">
-                  <div>
-                    <div className="small fw-semibold">Tandoor House</div>
-                    <small className="text-secondary">North Indian · Submitted 5 hrs ago</small>
-                  </div>
-                  <div className="d-flex gap-2">
-                    <button className="btn btn-success btn-sm"><i className="bi bi-check-lg" /></button>
-                    <button className="btn btn-danger btn-sm"><i className="bi bi-x-lg" /></button>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between align-items-center p-2 rounded-2 border border-secondary">
-                  <div>
-                    <div className="small fw-semibold">Sushi World</div>
-                    <small className="text-secondary">Japanese · Submitted 1 day ago</small>
-                  </div>
-                  <div className="d-flex gap-2">
-                    <button className="btn btn-success btn-sm"><i className="bi bi-check-lg" /></button>
-                    <button className="btn btn-danger btn-sm"><i className="bi bi-x-lg" /></button>
-                  </div>
-                </div>
+                  ))
+                }
+               
               </div>
+                )
+                :(
+                  <p className="text-secondary small text-center py-3 mb-0">
+                    No pending approvals
+                  </p>
+                )
+              }
             </div>
           </div>
           {/* Recent orders */}
