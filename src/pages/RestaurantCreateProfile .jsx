@@ -11,10 +11,10 @@ const RestaurantCreateProfile  = () => {
 
               {/* Header */}
               <div className="text-center mb-4">
-                <div className="fw-bold fs-3 mb-2">
+                <div className="fw-bold text-white fs-3 mb-2">
                   Quick<span className="text-primary">Bite</span>
                 </div>
-                <h4 className="fw-bold">Create Restaurant Profile</h4>
+                <h4 className="fw-bold text-white">Create Restaurant Profile</h4>
                 <p className="text-secondary small">
                   Set up your restaurant to start receiving orders
                 </p>
@@ -25,7 +25,7 @@ const RestaurantCreateProfile  = () => {
 
                   {/* Restaurant Name */}
                   <div className="col-12">
-                    <label className="form-label small">Restaurant Name</label>
+                    <label className="form-label text-white small">Restaurant Name</label>
                     <div className="input-group">
                       <span className="input-group-text bg-dark border-secondary text-secondary">
                         <i className="bi bi-shop" />
@@ -40,7 +40,7 @@ const RestaurantCreateProfile  = () => {
 
                   {/* Cuisine */}
                   <div className="col-sm-6">
-                    <label className="form-label small">Cuisine Type</label>
+                    <label className="form-label text-white small">Cuisine Type</label>
                     <div className="input-group">
                       <span className="input-group-text bg-dark border-secondary text-secondary">
                         <i className="bi bi-egg-fried" />
@@ -55,7 +55,7 @@ const RestaurantCreateProfile  = () => {
 
                   {/* Description */}
                   <div className="col-sm-6">
-                    <label className="form-label small">Description</label>
+                    <label className="form-label text-white small">Description</label>
                     <div className="input-group">
                       <span className="input-group-text bg-dark border-secondary text-secondary">
                         <i className="bi bi-card-text" />
@@ -69,7 +69,7 @@ const RestaurantCreateProfile  = () => {
                   </div>
                   {/* Restaurant Image */}
                     <div className="col-12">
-                    <label className="form-label small">Restaurant Image</label>
+                    <label className="form-label text-white small">Restaurant Image</label>
                     <div className="input-group">
                         <span className="input-group-text bg-dark border-secondary text-secondary">
                         <i className="bi bi-image" />
@@ -93,7 +93,7 @@ const RestaurantCreateProfile  = () => {
 
                   {/* Street */}
                   <div className="col-12">
-                    <label className="form-label small">Street</label>
+                    <label className="form-label text-white small">Street</label>
                     <div className="input-group">
                       <span className="input-group-text bg-dark border-secondary text-secondary">
                         <i className="bi bi-signpost" />
@@ -108,7 +108,7 @@ const RestaurantCreateProfile  = () => {
 
                   {/* City + State + Pincode */}
                   <div className="col-sm-5">
-                    <label className="form-label small">City</label>
+                    <label className="form-label text-white small">City</label>
                     <input
                       type="text"
                       className="form-control bg-dark text-light border-secondary"
@@ -116,7 +116,7 @@ const RestaurantCreateProfile  = () => {
                     />
                   </div>
                   <div className="col-sm-4">
-                    <label className="form-label small">State</label>
+                    <label className="form-label text-white small">State</label>
                     <input
                       type="text"
                       className="form-control bg-dark text-light border-secondary"
@@ -124,7 +124,7 @@ const RestaurantCreateProfile  = () => {
                     />
                   </div>
                   <div className="col-sm-3">
-                    <label className="form-label small">Pincode</label>
+                    <label className="form-label text-white small">Pincode</label>
                     <input
                       type="text"
                       className="form-control bg-dark text-light border-secondary"

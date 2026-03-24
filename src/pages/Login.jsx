@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginUser } from '../redux/slices/authSlice'
+import { getMyRestaurant } from '../redux/slices/restaurantSlice'
+
 
 const Login = () => {
     const dispatch=useDispatch()
@@ -14,15 +16,32 @@ const Login = () => {
 
     const handleSubmit=async(e)=>{
         e.preventDefault()
-        const result=await dispatch(loginUser(form))
+        const result= await dispatch(loginUser(form))
+        console.log('login result:', result)
         if(loginUser.fulfilled.match(result))
         {
+            const { token }=result.payload
             const role=result.payload.user.role
+            console.log('token: ',token);
+            
             if(role==='admin')
-            navigate('/admin')
+            {
+                navigate('/admin')
+            }
             else if(role === 'restaurant_admin')
-            navigate('/restaurant/dashboard')
-            else navigate('/')
+            {
+                const profileResult= await dispatch(getMyRestaurant(token))
+                if(profileResult.payload===null)
+                {
+                  navigate('/restaurant-createprofile')
+                }
+                else{
+                    navigate('/restaurant')
+                }
+            }
+            else {
+                navigate('/')
+            }
         }
     }
 

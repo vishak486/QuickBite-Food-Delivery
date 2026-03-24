@@ -1,7 +1,18 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { logout } from '../redux/slices/authSlice'
+import { useDispatch } from 'react-redux'
+
 
 const RestaurantSidebar = ({ title }) => {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+
+  const handleLogout = () => {
+      dispatch(logout())
+      navigate('/login')
+    }
+
   return (
     <>
     {/* Sidebar */}
@@ -54,7 +65,7 @@ const RestaurantSidebar = ({ title }) => {
 
         <div className="mt-auto px-2">
           <hr className="border-secondary" />
-          <button className="btn nav-link rest-sidebar-link rounded-2 py-2 px-3 text-secondary d-flex align-items-center gap-2 w-100">
+          <button onClick={handleLogout} className="btn nav-link rest-sidebar-link rounded-2 py-2 px-3 text-secondary d-flex align-items-center gap-2 w-100">
             <i className="bi bi-box-arrow-left" /> Logout
           </button>
         </div>
