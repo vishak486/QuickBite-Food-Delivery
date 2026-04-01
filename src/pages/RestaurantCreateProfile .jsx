@@ -1,6 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { createRestaurantProfile } from '../redux/slices/restaurantSlice'
 
 const RestaurantCreateProfile  = () => {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+
+  const[profileData,setProfileData]=useState({
+    restname:"",cuisine:"",description:"",image:"",street:"",city:"",state:"",pincode:""
+  })
+  console.log(profileData);
+  
+
+  const handleRestaurantSubmit=async(e)=>{
+    e.preventDefault();
+    const{restname,cuisine,description,image,street,city,state,pincode}=profileData
+    if(restname && cuisine && description && image && street && city && state && pincode)
+    {
+      const formData= new FormData()
+      formData.append("name",profileData.restname)
+      formData.append("cuisine",profileData.cuisine)
+      formData.append("description", profileData.description);
+      formData.append("street", profileData.street);
+      formData.append("city", profileData.city);
+      formData.append("state", profileData.state);
+      formData.append("pincode", profileData.pincode);
+      formData.append('image',profileData.image)
+      dispatch(createRestaurantProfile(formData))
+      navigate("/restaurant")
+    }
+    else
+    {
+      alert("Please fill the form!!!")
+    }
+  }
+  
   return (
     <>
      <div className="min-vh-100 d-flex align-items-center py-5 bg-dark text-light">
@@ -20,7 +55,7 @@ const RestaurantCreateProfile  = () => {
                 </p>
               </div>
 
-              <form>
+              <form onSubmit={handleRestaurantSubmit}>
                 <div className="row g-3">
 
                   {/* Restaurant Name */}
@@ -34,6 +69,8 @@ const RestaurantCreateProfile  = () => {
                         type="text"
                         className="form-control bg-dark text-light border-secondary"
                         placeholder="e.g. Burger Palace"
+                        value={profileData.restname}
+                        onChange={(e)=>setProfileData({...profileData,restname:e.target.value})}
                       />
                     </div>
                   </div>
@@ -49,6 +86,8 @@ const RestaurantCreateProfile  = () => {
                         type="text"
                         className="form-control bg-dark text-light border-secondary"
                         placeholder="e.g. American, Fast Food"
+                        value={profileData.cuisine}
+                        onChange={(e)=>setProfileData({...profileData,cuisine:e.target.value})}
                       />
                     </div>
                   </div>
@@ -64,6 +103,8 @@ const RestaurantCreateProfile  = () => {
                         type="text"
                         className="form-control bg-dark text-light border-secondary"
                         placeholder="Short description"
+                        value={profileData.description}
+                        onChange={(e)=>setProfileData({...profileData,description:e.target.value})}
                       />
                     </div>
                   </div>
@@ -78,6 +119,7 @@ const RestaurantCreateProfile  = () => {
                         type="file"
                         accept="image/*"
                         className="form-control bg-dark text-light border-secondary"
+                        onChange={(e)=>setProfileData({...profileData,image:e.target.files[0]})}
                         />
                     </div>
                     <small className="text-secondary">Upload a photo of your restaurant (JPG, PNG)</small>
@@ -102,6 +144,8 @@ const RestaurantCreateProfile  = () => {
                         type="text"
                         className="form-control bg-dark text-light border-secondary"
                         placeholder="Street address"
+                        value={profileData.street}
+                        onChange={(e)=>setProfileData({...profileData, street:e.target.value})}
                       />
                     </div>
                   </div>
@@ -113,6 +157,8 @@ const RestaurantCreateProfile  = () => {
                       type="text"
                       className="form-control bg-dark text-light border-secondary"
                       placeholder="City"
+                      value={profileData.city}
+                      onChange={(e)=>setProfileData({...profileData,city:e.target.value})}
                     />
                   </div>
                   <div className="col-sm-4">
@@ -121,6 +167,8 @@ const RestaurantCreateProfile  = () => {
                       type="text"
                       className="form-control bg-dark text-light border-secondary"
                       placeholder="State"
+                      value={profileData.state}
+                      onChange={(e)=>setProfileData({...profileData,state:e.target.value})}
                     />
                   </div>
                   <div className="col-sm-3">
@@ -129,6 +177,8 @@ const RestaurantCreateProfile  = () => {
                       type="text"
                       className="form-control bg-dark text-light border-secondary"
                       placeholder="560001"
+                      value={profileData.pincode}
+                      onChange={(e)=>setProfileData({...profileData,pincode:e.target.value})}
                     />
                   </div>
 
