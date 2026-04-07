@@ -84,6 +84,12 @@
 .rest-content {
   flex: 1;
   padding: 1rem;
+  margin-left: 240px;
+  transition: margin-left .3s ease;
+}
+
+#restaurant-sidebar.collapsed ~ .rest-content {
+  margin-left: 0;
 }
 
 /* Sidebar links */
@@ -106,6 +112,9 @@
   .rest-main-content { 
     margin-left: 0; 
   }
+  #restaurant-sidebar:not(.open) ~ .rest-content {
+  margin-left: 0;
+}
 }
 
 /* Overlay for mobile */

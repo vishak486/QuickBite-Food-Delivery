@@ -16,6 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import AdminManageCategories from './pages/AdminManageCategories'
 import RestaurantCreateProfile from './pages/RestaurantCreateProfile '
 import RestaurantDashboard from './pages/RestaurantDashboard'
+import RestaurantManageMenu from './pages/RestaurantManageMenu'
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
             {/* Restaurant Admin Routes */}
             <Route path='/restaurant-createprofile' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantCreateProfile/></ProtectedRoute>}/>
             <Route path='/restaurant' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantDashboard/></ProtectedRoute>}/>
-
+            <Route path='/restaurant-menu' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantManageMenu/></ProtectedRoute>}/>
         </Routes>
         {!hideLayout && <Footer/>}
 

@@ -29,11 +29,11 @@ const RestaurantSidebar = ({ title }) => {
           <div className="fw-bold fs-5 mb-1">
             Quick<span className="text-primary">Bite</span>
           </div>
-          <small className="text-secondary">Restaurant Admin</small>
+          {/* <small className="text-secondary">Restaurant Admin</small> */}
         </div>
 
         <nav className="nav flex-column gap-1 px-2">
-          <NavLink to="/restaurant/dashboard" end
+          <NavLink to="/restaurant" end
             className={({ isActive }) =>
               `nav-link rest-sidebar-link rounded-2 py-2 px-3 d-flex align-items-center gap-2 ${
                 isActive ? 'active text-light' : 'text-secondary'
@@ -42,7 +42,7 @@ const RestaurantSidebar = ({ title }) => {
             <i className="bi bi-grid-1x2" /> Dashboard
           </NavLink>
 
-          <NavLink to="/restaurant/menu"
+          <NavLink to="/restaurant-menu"
             className={({ isActive }) =>
               `nav-link rest-sidebar-link rounded-2 py-2 px-3 d-flex align-items-center gap-2 ${
                 isActive ? 'active text-light' : 'text-secondary'
