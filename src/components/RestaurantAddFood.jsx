@@ -1,8 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAllCategories, fetchAllCategoriesForRestAdmin } from '../redux/slices/categorySlice'
 
 const RestaurantAddFood = () => {
+  const dispatch=useDispatch()
+  const{categoryList,loading,error}=useSelector((state)=>state.category)
     const [show, setShow] = useState(false)
+   
+    useEffect(()=>{
+      dispatch(fetchAllCategoriesForRestAdmin())
+    },[])
+
+    console.log(categoryList);
+    
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -49,10 +60,13 @@ const RestaurantAddFood = () => {
                 <Form.Label>Category</Form.Label>
                 <Form.Select>
                   <option>Select Category</option>
-                  <option>Fast Food</option>
-                  <option>Snacks</option>
-                  <option>Beverages</option>
-                  {/* Later populate dynamically */}
+                  {loading && <option disabled>Loading...</option>}
+                 {error && <option disabled>Error loading categories</option>}
+                  {categoryList.map((cat) => (
+                    <option key={cat._id} value={cat._id}>
+                      {cat.name}
+                    </option>
+                  ))}
                 </Form.Select>
               </div>
               <div className="col-md-6 mb-3">

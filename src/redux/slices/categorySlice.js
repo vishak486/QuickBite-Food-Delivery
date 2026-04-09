@@ -14,6 +14,17 @@ export const fetchAllCategories=createAsyncThunk('category/fetchAllCategories',a
     )
     return response.data
 })
+export const fetchAllCategoriesForRestAdmin=createAsyncThunk('category/fetchAllCategoriesForRestAdmin',async()=>{
+    const token=localStorage.getItem('token')
+    const response=await axios.get(`${SERVER_URL}/restaurant/getAllCategoryForRestaurant`,
+        {
+             headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+    return response.data
+})
 
 export const AddCategories=createAsyncThunk('category/AddCategroies',async(formdata)=>{
     const token=localStorage.getItem('token')
@@ -111,6 +122,20 @@ const categorySlice=createSlice({
         })
         .addCase(deactivateCategory.fulfilled, (state) => {
         state.loading = false
+        })
+
+        // fetchAllCategories for rest admin
+        .addCase(fetchAllCategoriesForRestAdmin.pending,(state)=>{
+            state.loading=true
+            state.error=null
+        })
+        .addCase(fetchAllCategoriesForRestAdmin.fulfilled,(state,action)=>{
+            state.loading=false
+            state.categoryList=action.payload
+        })
+        .addCase(fetchAllCategoriesForRestAdmin.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
         })
     }
 })

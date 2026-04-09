@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import RestaurantSidebar from '../components/RestaurantSidebar'
 import { Link } from 'react-router-dom'
 import RestaurantAddFood from '../components/RestaurantAddFood'
+import { useDispatch, useSelector } from 'react-redux'
+import { Spinner } from 'react-bootstrap'
+import { fetchAllFoods } from '../redux/slices/foodSlice'
+import { SERVER_URL } from "../config"
 
 
 const RestaurantManageMenu = () => {
+  const dispatch=useDispatch()
+  const{ foodList,loading,error}=useSelector(state=>state.food)
+  const [search,setSearch]=useState("")
+
+  useEffect(()=>{
+    dispatch(fetchAllFoods(search))
+  },[search])
   return (
     <>
         <RestaurantSidebar title="Manage Menu"/>
@@ -14,11 +25,18 @@ const RestaurantManageMenu = () => {
           <input
             type="text"
             className="form-control w-50"
+            value={search}
+            onChange={(e)=>setSearch(e.target.value)}
             placeholder="Search food items..."
           />
           <RestaurantAddFood/>
         </div>
 
+        {loading && 
+          <div className="text-center">
+              <Spinner animation='border' variant='secondary'/>
+          </div>
+        }
         {/* Table */}
         <div className="card bg-dark border p-3">
           <div className="table-responsive">
@@ -35,60 +53,45 @@ const RestaurantManageMenu = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Example static rows for design */}
-                <tr>
-                  <td className="small">Veg Burger</td>
-                  <td className="small">Delicious veggie patty with lettuce</td>
-                  <td className="small fw-semibold">₹120</td>
-                  <td>
-                    <img
-                      src="/images/veg-burger.jpg"
-                      alt="Veg Burger"
-                      style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}
-                    />
-                  </td>
-                  <td className="small">Fast Food</td>
-                  <td>
-                    <span className="badge bg-success">Available</span>
-                  </td>
-                  <td>
-                    <div className="d-flex gap-2">
-                      <button className="btn btn-sm btn-outline-secondary">
-                        <i className="bi bi-pencil" /> Edit
-                      </button>
-                      <button className="btn btn-sm btn-outline-danger">
-                        <i className="bi bi-trash" /> Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="small">French Fries</td>
-                  <td className="small">Crispy golden fries</td>
-                  <td className="small fw-semibold">₹90</td>
-                  <td>
-                    <img
-                      src="/images/fries.jpg"
-                      alt="French Fries"
-                      style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}
-                    />
-                  </td>
-                  <td className="small">Snacks</td>
-                  <td>
-                    <span className="badge bg-danger">Unavailable</span>
-                  </td>
-                  <td>
-                    <div className="d-flex gap-2">
-                      <button className="btn btn-sm btn-outline-secondary">
-                        <i className="bi bi-pencil" /> Edit
-                      </button>
-                      <button className="btn btn-sm btn-outline-danger">
-                        <i className="bi bi-trash" /> Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                {/* Add more rows as needed */}
+                {
+                  foodList.length >0?(
+                    foodList.map(food=>(
+                      <tr key={food._id}>
+                        <td className="small">{food.name}</td>
+                        <td className="small">{food.description}</td>
+                        <td className="small fw-semibold">₹{food.price}</td>
+                        <td>
+                          <img
+                            src={food.image ? `${SERVER_URL}/uploads/foods/${food.image}` : "https://via.placeholder.com/70"}
+                            alt={food.name}
+                            style={{ width: '70px', height: '70px', objectFit: 'cover', borderRadius: '4px' }}
+                          />
+                        </td>
+                        <td className="small">{food.category?.name}</td>
+                        <td>
+                          <span className={`badge ${food.isAvailable ? "bg-success" : "bg-danger"}`}>
+                            {food.isAvailable ? "Available" : "Unavailable"}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="d-flex gap-2">
+                            <button className="btn btn-sm btn-outline-secondary">
+                              <i className="bi bi-pencil" /> Edit
+                            </button>
+                            <button className="btn btn-sm btn-outline-danger">
+                              <i className="bi bi-trash" /> Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )
+                  :(
+                    <p className="text-secondary">No items found...</p>
+                  )
+                }
+                
+                
               </tbody>
             </table>
           </div>
