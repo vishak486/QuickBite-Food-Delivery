@@ -15,6 +15,19 @@ export const fetchAllFoods=createAsyncThunk("food/fetchAllFoods",async(search)=>
     return response.data
 })
 
+export const addFood=createAsyncThunk("food/addFood",async(foodData)=>{
+    const token=localStorage.getItem("token")
+    const response= await axios.post(`${SERVER_URL}/restaurant/createFood`,foodData,
+        {
+             headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        
+    )
+})
+
 const foodSlice=createSlice({
     name:"food",
     initialState:{
@@ -34,6 +47,18 @@ const foodSlice=createSlice({
             state.foodList=action.payload
         })
         .addCase(fetchAllFoods.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
+        })
+
+        // AddFood by Restaurant Admin
+        .addCase(addFood.pending,(state)=>{
+            state.loading=true
+        })
+        .addCase(addFood.fulfilled,(state)=>{
+            state.loading=false
+        })
+        .addCase(addFood.rejected,(state,action)=>{
             state.loading=false
             state.error=action.error.message
         })

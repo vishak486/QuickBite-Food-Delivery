@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL="http://localhost:3000"
+import { SERVER_URL } from "../../config";
 
 // Register Customer
 export const registerCustomer=createAsyncThunk('auth/registerCustomer',async(formData,thunkAPI)=>{

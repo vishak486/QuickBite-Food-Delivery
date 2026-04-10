@@ -87,11 +87,13 @@ const RestaurantManageMenu = () => {
                     ))
                   )
                   :(
-                    <p className="text-secondary">No items found...</p>
+                    <tr>
+                      <td colSpan="7" className="text-secondary text-center">
+                        No items found...
+                      </td>
+                    </tr>
                   )
-                }
-                
-                
+                } 
               </tbody>
             </table>
           </div>
