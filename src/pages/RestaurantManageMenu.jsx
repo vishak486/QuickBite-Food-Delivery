@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 import RestaurantAddFood from '../components/RestaurantAddFood'
 import { useDispatch, useSelector } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
-import { fetchAllFoods } from '../redux/slices/foodSlice'
+import { fetchAllFoods, fetchEachFoodsCreatedByEachRestaurant } from '../redux/slices/foodSlice'
 import { SERVER_URL } from "../config"
+import RestaurantUpdateFood from '../components/RestaurantUpdateFood'
 
 
 const RestaurantManageMenu = () => {
@@ -14,7 +15,7 @@ const RestaurantManageMenu = () => {
   const [search,setSearch]=useState("")
 
   useEffect(()=>{
-    dispatch(fetchAllFoods(search))
+    dispatch(fetchEachFoodsCreatedByEachRestaurant(search))
   },[search])
   return (
     <>
@@ -75,9 +76,7 @@ const RestaurantManageMenu = () => {
                         </td>
                         <td>
                           <div className="d-flex gap-2">
-                            <button className="btn btn-sm btn-outline-secondary">
-                              <i className="bi bi-pencil" /> Edit
-                            </button>
+                            <RestaurantUpdateFood food={food}/>
                             <button className="btn btn-sm btn-outline-danger">
                               <i className="bi bi-trash" /> Delete
                             </button>

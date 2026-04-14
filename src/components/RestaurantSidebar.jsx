@@ -4,6 +4,7 @@ import { logout } from '../redux/slices/authSlice'
 import { useDispatch } from 'react-redux'
 
 const RestaurantSidebar = ({ title }) => {
+  const user = JSON.parse(localStorage.getItem("user"))
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -99,7 +100,7 @@ const RestaurantSidebar = ({ title }) => {
         </div>
         <div className="d-flex align-items-center gap-3">
           <span className="badge bg-success px-3 py-2 rounded-pill">🟢 Open</span>
-          <span className="text-secondary small d-none d-md-block">Burger Palace</span>
+          <span className="text-secondary small d-none d-md-block">{user?.name || "Restaurant Name"}</span>
           <div
             className="rounded-circle d-flex align-items-center justify-content-center bg-primary"
             style={{ width: '34px', height: '34px' }}

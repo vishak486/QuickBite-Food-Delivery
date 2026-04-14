@@ -14,6 +14,18 @@ export const fetchAllFoods=createAsyncThunk("food/fetchAllFoods",async(search)=>
     )
     return response.data
 })
+// fetch each food created by each restaurant
+export const fetchEachFoodsCreatedByEachRestaurant=createAsyncThunk("food/fetchEachFoodsCreatedByEachRestaurant",async(search)=>{
+    const token=localStorage.getItem('token')
+    const response=await axios.get(`${SERVER_URL}/restaurant/fetchEachFood?search=${search}`,
+        {
+             headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+    return response.data
+})
 
 export const addFood=createAsyncThunk("food/addFood",async(foodData)=>{
     const token=localStorage.getItem("token")
@@ -24,8 +36,20 @@ export const addFood=createAsyncThunk("food/addFood",async(foodData)=>{
                 'Content-Type': 'multipart/form-data'
             }
         }
-        
     )
+    return response.data
+})
+export const editFood=createAsyncThunk("food/editFood",async(formData)=>{
+    const token=localStorage.getItem("token")
+    const response=await axios.put(`${SERVER_URL}/restaurant/editFood`,formData,
+        {
+             headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+    )
+    return response.data
 })
 
 const foodSlice=createSlice({
@@ -59,6 +83,33 @@ const foodSlice=createSlice({
             state.loading=false
         })
         .addCase(addFood.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
+        })
+
+        // EditFood by rest admin
+        .addCase(editFood.pending,(state)=>{
+            state.loading=true
+        })
+        .addCase(editFood.fulfilled,(state,action)=>{
+            state.loading=false
+            const updated = action.payload
+            state.foodList=state.foodList.map(f=>f._id===updated._id?updated:f)
+        })
+        .addCase(editFood.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
+        })
+
+        // Fetch food created by each restaurant
+        .addCase(fetchEachFoodsCreatedByEachRestaurant.pending,(state)=>{
+            state.loading=true
+        })
+        .addCase(fetchEachFoodsCreatedByEachRestaurant.fulfilled,(state,action)=>{
+            state.loading=false
+            state.foodList=action.payload
+        })
+        .addCase(fetchEachFoodsCreatedByEachRestaurant.rejected,(state,action)=>{
             state.loading=false
             state.error=action.error.message
         })
