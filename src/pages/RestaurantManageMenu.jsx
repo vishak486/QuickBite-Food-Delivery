@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import RestaurantAddFood from '../components/RestaurantAddFood'
 import { useDispatch, useSelector } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
-import { fetchAllFoods, fetchEachFoodsCreatedByEachRestaurant } from '../redux/slices/foodSlice'
+import { fetchAllFoods, fetchEachFoodsCreatedByEachRestaurant, markFoodAvailable, markFoodUnavailable } from '../redux/slices/foodSlice'
 import { SERVER_URL } from "../config"
 import RestaurantUpdateFood from '../components/RestaurantUpdateFood'
 
@@ -77,9 +77,21 @@ const RestaurantManageMenu = () => {
                         <td>
                           <div className="d-flex gap-2">
                             <RestaurantUpdateFood food={food}/>
-                            <button className="btn btn-sm btn-outline-danger">
-                              <i className="bi bi-trash" /> Delete
-                            </button>
+                            {
+                              food.isAvailable?(
+                                  <button
+                                  className="btn btn-sm btn-outline-warning"
+                                  onClick={()=>dispatch(markFoodUnavailable(food._id))}>
+                                    <i className="bi bi-x-circle" /> Mark Unavailable
+                                  </button>
+                              ):(
+                                <button
+                                  className="btn btn-sm btn-outline-warning"
+                                  onClick={()=>dispatch(markFoodAvailable(food._id))}>
+                                    <i className="bi bi-check-circle" /> Mark Available
+                                  </button>
+                              )
+                            }
                           </div>
                         </td>
                       </tr>

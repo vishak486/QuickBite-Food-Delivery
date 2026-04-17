@@ -51,6 +51,22 @@ export const editFood=createAsyncThunk("food/editFood",async(formData)=>{
     )
     return response.data
 })
+export const markFoodUnavailable=createAsyncThunk('food/markFoodUnavailable',async(foodId)=>{
+    const token=localStorage.getItem('token')
+    const response= await axios.put(`${SERVER_URL}/restaurant/unAvailableFood/${foodId}`,{},{
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    return response.data
+})
+export const markFoodAvailable =createAsyncThunk('food/markFoodAvailable',async(foodId)=>{
+    const token=localStorage.getItem('token')
+    const response= await axios.put(`${SERVER_URL}/restaurant/AvailableFood/${foodId}`,{},{
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    return response.data
+})
+
+
 
 const foodSlice=createSlice({
     name:"food",
@@ -112,6 +128,22 @@ const foodSlice=createSlice({
         .addCase(fetchEachFoodsCreatedByEachRestaurant.rejected,(state,action)=>{
             state.loading=false
             state.error=action.error.message
+        })
+
+        // Restaurant Admin Update Food availability
+        .addCase(markFoodUnavailable.fulfilled,(state,action)=>{
+            state.loading=false
+            const updated = action.payload
+            state.foodList = state.foodList.map(f =>
+                f._id === updated._id ? updated : f
+            )
+        })
+        .addCase(markFoodAvailable.fulfilled,(state,action)=>{
+            state.loading=false
+            const updated = action.payload
+            state.foodList = state.foodList.map(f =>
+                f._id === updated._id ? updated : f
+            )
         })
     }
 
