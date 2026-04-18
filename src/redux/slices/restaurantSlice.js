@@ -33,6 +33,19 @@ export const createRestaurantProfile=createAsyncThunk('restaurant/createRestaura
     return response.data
 })
 
+export const editRestaurantProfile=createAsyncThunk('restaurant/editRestaurantProfile',async(restaurantData)=>{
+    const token=localStorage.getItem('token')
+    const response=await axios.put(`${SERVER_URL}/restaurant/editRestaurant`,restaurantData,
+        {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+    )
+    return response.data
+})
+
 
 const restaurantSlice=createSlice({
     name:'restaurant',
@@ -68,6 +81,19 @@ const restaurantSlice=createSlice({
         .addCase(createRestaurantProfile.rejected,(state,action)=>{
             state.loading=false
             state.error=action.error.message
+        })
+
+        .addCase(editRestaurantProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(editRestaurantProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.restaurant = action.payload; // replace with updated restaurant
+        })
+        .addCase(editRestaurantProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
         })
     }
 })
