@@ -46,11 +46,23 @@ export const editRestaurantProfile=createAsyncThunk('restaurant/editRestaurantPr
     return response.data
 })
 
+// Admin Get All Restaurants
+export const fetchAllRestaurants =createAsyncThunk('restaurant/fetchAllRestaurants',async(searchKey="")=>{
+    const token=localStorage.getItem("token")
+    const response=await axios.get(`${SERVER_URL}/admin/allRestaurants?search=${searchKey}`,{
+        headers: {
+            Authorization: `Bearer ${token}`,
+          },
+    })
+    return response.data
+})
+
 
 const restaurantSlice=createSlice({
     name:'restaurant',
     initialState:{
         restaurant:null,
+        restaurantList: [],
         loading:false,
         error:null
     },
@@ -94,6 +106,19 @@ const restaurantSlice=createSlice({
         .addCase(editRestaurantProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        })
+
+        // Fetch All Restaurants (Admin)
+        .addCase(fetchAllRestaurants.pending,(state)=>{
+            state.loading=true
+        })
+        .addCase(fetchAllRestaurants.fulfilled,(state,action)=>{
+            state.loading=false
+            state.restaurantList=action.payload
+        })
+        .addCase(fetchAllRestaurants.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
         })
     }
 })
