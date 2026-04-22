@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminSidebar from '../components/AdminSidebar'
 import { useDispatch, useSelector } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
-import { fetchAllRestaurants } from '../redux/slices/restaurantSlice'
+import { activateRestaurant, deactivateRestaurant, fetchAllRestaurants } from '../redux/slices/restaurantSlice'
 
 const AdminManageRestaurants = () => {
   const dispatch=useDispatch()
   const {restaurantList,loading}=useSelector(state=>state.restaurant)
-useEffect(()=>{
-  dispatch(fetchAllRestaurants())
-},[])
+  const [search,setSearch]=useState("")
+  useEffect(()=>{
+    dispatch(fetchAllRestaurants(search))
+  },[search])
 
-console.log(restaurantList);
 
   return (
     <>
@@ -22,7 +22,7 @@ console.log(restaurantList);
         <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h6 className="fw-bold mb-0">All Restaurants</h6>
           <div className="d-flex gap-2 flex-wrap">
-            <input type="text" className="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Search restaurants..." style={{width: '200px'}} />
+            <input value={search} onChange={(e)=>setSearch(e.target.value)} type="text" className="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Search restaurants..." style={{width: '200px'}} />
           </div>
         </div>
         {
@@ -49,7 +49,6 @@ console.log(restaurantList);
               {
                 restaurantList.length>0?(
                       restaurantList.map(rest=>(
-                         
                           <tr key={rest._id} className="border-bottom border-secondary border-opacity-25">
                             <td>
                               <div className="d-flex align-items-center gap-2">
@@ -74,15 +73,26 @@ console.log(restaurantList);
                             </td>
                             <td>
                               <div className="d-flex gap-1">
-                                <button className="btn btn-outline-secondary btn-sm">View</button>
-                                <button className="btn btn-danger btn-sm">
-                                  {rest.isActive ? "Block" : "Unblock"}
-                                </button>
+                                {
+                                  rest.isActive?(
+                                    <button
+                                      className="btn btn-danger btn-sm"
+                                      onClick={() => dispatch(deactivateRestaurant(rest._id))}
+                                    >
+                                      Block
+                                    </button>
+                                  ):(
+                                    <button
+                                      className="btn btn-success btn-sm"
+                                      onClick={() => dispatch(activateRestaurant(rest._id))}
+                                    >
+                                      Unblock
+                                    </button>
+                                  )
+                                }
                               </div>
                             </td>
                           </tr>
-                          
-                        
                       ))
                 )
                 :(

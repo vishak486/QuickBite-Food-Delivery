@@ -1,7 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { logout } from '../redux/slices/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Header = () => {
+    const dispatch=useDispatch()
+    const {user}=useSelector(state=>state.auth)
+    const handleLogout=()=>{
+        dispatch(logout())
+    }
   return (
     <>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary sticky-top">
@@ -31,18 +38,37 @@ const Header = () => {
             </li>
         </ul>
         <div className="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-            <Link className="btn btn-outline-primary btn-sm px-3" to={'/login'} >
-            Login
-            </Link>
-            <Link className="btn btn-primary btn-sm px-3" to={'/register'} >
-            Sign Up
-            </Link>
-            <a href="#" className="text-light position-relative">
-            <i className="bi bi-bag fs-5" />
-            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"style={{ fontSize: 10 }}>
-                3
-            </span>
-            </a>
+            {
+                user?(
+                    <>
+                    <a href="#" className="text-light position-relative">
+                        <i className="bi bi-bag fs-5" />
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"style={{ fontSize: 10 }}>
+                            3
+                        </span>
+                    </a>
+                    <span className="text-light small fw-semibold">
+                    {user.name}
+                    </span>
+                    <button
+                    className="btn btn-outline-danger btn-sm px-3"
+                    onClick={handleLogout}
+                    >
+                    Logout
+                    </button>
+                    </>   
+                ):(
+                <>
+                <Link className="btn btn-outline-primary btn-sm px-3" to={'/login'} >
+                Login
+                </Link>
+                <Link className="btn btn-primary btn-sm px-3" to={'/register'} >
+                Sign Up
+                </Link>
+                </>
+                )
+            }
+            
         </div>
         </div>
     </div>

@@ -57,6 +57,27 @@ export const fetchAllRestaurants =createAsyncThunk('restaurant/fetchAllRestauran
     return response.data
 })
 
+// Admin Activate Restaurant
+export const activateRestaurant =createAsyncThunk('restaurant/activateRestaurant',async(restaurantId)=>{
+    const token=localStorage.getItem('token')
+    const response=await axios.put(`${SERVER_URL}/activateRestaurant/${restaurantId}`,{},{
+        headers: {
+            Authorization: `Bearer ${token}`,
+          },
+    })
+    return response.data
+})
+// Admin Deactivate Restaurant
+export const deactivateRestaurant=createAsyncThunk('restaurant/deactivateRestaurant',async(restaurantId)=>{
+    const token=localStorage.getItem('token')
+    const response=await axios.put(`${SERVER_URL}/deactivateRestaurant/${restaurantId}`,{},{
+        headers: {
+            Authorization: `Bearer ${token}`,
+          },
+    })
+    return response.data
+})
+
 
 const restaurantSlice=createSlice({
     name:'restaurant',
@@ -119,6 +140,20 @@ const restaurantSlice=createSlice({
         .addCase(fetchAllRestaurants.rejected,(state,action)=>{
             state.loading=false
             state.error=action.error.message
+        })
+        .addCase(activateRestaurant.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const index = state.restaurantList.findIndex(r => r._id === updated._id);
+        if (index !== -1) {
+            state.restaurantList[index] = updated;
+        }
+        })
+        .addCase(deactivateRestaurant.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const index = state.restaurantList.findIndex(r => r._id === updated._id);
+        if (index !== -1) {
+            state.restaurantList[index] = updated;
+        }
         })
     }
 })
