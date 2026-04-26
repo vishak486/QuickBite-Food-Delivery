@@ -66,6 +66,12 @@ export const markFoodAvailable =createAsyncThunk('food/markFoodAvailable',async(
     return response.data
 })
 
+//fetchFoodsByRestaurant by customer 
+export const fetchFoodsByRestaurant=createAsyncThunk('food/fetchFoodsByRestaurant',async(restaurantId)=>{
+    const response=await axios.get(`${SERVER_URL}/customer/restaurants/${restaurantId}/foods`)
+    return response.data
+})
+
 
 
 const foodSlice=createSlice({
@@ -144,6 +150,19 @@ const foodSlice=createSlice({
             state.foodList = state.foodList.map(f =>
                 f._id === updated._id ? updated : f
             )
+        })
+        // Customer FetchFood
+        .addCase(fetchFoodsByRestaurant.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(fetchFoodsByRestaurant.fulfilled, (state, action) => {
+        state.loading = false;
+        state.foodList = action.payload; 
+        })
+        .addCase(fetchFoodsByRestaurant.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
         })
     }
 

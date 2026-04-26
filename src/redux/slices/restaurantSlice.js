@@ -78,6 +78,12 @@ export const deactivateRestaurant=createAsyncThunk('restaurant/deactivateRestaur
     return response.data
 })
 
+// Customer: Fetch all active restaurants
+export const fetchActiveRestaurants=createAsyncThunk('restaurant/fetchActiveRestaurants',async()=>{
+    const response=await axios.get(`${SERVER_URL}/customer/restaurants`)
+    return response.data
+})
+
 
 const restaurantSlice=createSlice({
     name:'restaurant',
@@ -154,6 +160,19 @@ const restaurantSlice=createSlice({
         if (index !== -1) {
             state.restaurantList[index] = updated;
         }
+        })
+
+        .addCase(fetchActiveRestaurants.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(fetchActiveRestaurants.fulfilled, (state, action) => {
+        state.loading = false;
+        state.restaurantList = action.payload; 
+        })
+        .addCase(fetchActiveRestaurants.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
         })
     }
 })

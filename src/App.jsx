@@ -18,6 +18,7 @@ import RestaurantCreateProfile from './pages/RestaurantCreateProfile '
 import RestaurantDashboard from './pages/RestaurantDashboard'
 import RestaurantManageMenu from './pages/RestaurantManageMenu'
 import RestaurantManageProfile from './pages/RestaurantManageProfile'
+import RestaurantMenuDetails from './pages/RestaurantMenuDetails'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path='/contact' element={<Contact/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
+            <Route path='/foodmenu-details/:id' element={<RestaurantMenuDetails/>}/>
 
             {/* Admin Routes */}
             <Route path='/admin' element={<ProtectedRoute allowedRole="admin"><AdminDashboard/></ProtectedRoute>}/>

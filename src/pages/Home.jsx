@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { fetchActiveRestaurants } from '../redux/slices/restaurantSlice'
+import { Spinner } from 'react-bootstrap'
+import { SERVER_URL } from "../config"
 
 const Home = () => {
+    const dispatch=useDispatch()
+    const {restaurantList, loading}=useSelector(state=>state.restaurant)
+    useEffect(()=>{
+        dispatch(fetchActiveRestaurants())
+    },[])
+    
+
   return (
     <>
     <div key="1" className="page-section active" id="page-home">
@@ -108,58 +119,51 @@ const Home = () => {
             </p>
             <h2 className="font-brand fw-bold mb-0">Popular Restaurants</h2>
             </div>
-            <a className="btn btn-outline-secondary btn-sm" href="#">
-            View All <i className="bi bi-arrow-right" />
-            </a>
         </div>
         <div className="row g-4">
-            <div className="col-sm-6 col-lg-4">
-            <div className="card bg-dark h-100">
-                <div className="restaurant-img rounded-top">🍔</div>
-                <div className="card-body">
-                <div className="d-flex justify-content-between align-items-start mb-1">
-                    <h6 className="font-brand fw-bold mb-0">Burger Palace</h6>
-                    <span className="badge bg-primary">🔥 Popular</span>
-                </div>
-                <small className="text-secondary d-block mb-2">
-                    American · Fast Food · ₹150–₹400
-                </small>
-                <small className="text-warning">★★★★★</small>
-                <small className="text-secondary ms-1">4.9 · 25–35 min</small>
-                </div>
-            </div>
-            </div>
-            <div className="col-sm-6 col-lg-4">
-            <div className="card bg-dark h-100">
-                <div className="restaurant-img rounded-top">🍕</div>
-                <div className="card-body">
-                <div className="d-flex justify-content-between align-items-start mb-1">
-                    <h6 className="font-brand fw-bold mb-0">Pizza Fiesta</h6>
-                    <span className="badge bg-success">New</span>
-                </div>
-                <small className="text-secondary d-block mb-2">
-                    Italian · Pizza · ₹200–₹600
-                </small>
-                <small className="text-warning">★★★★½</small>
-                <small className="text-secondary ms-1">4.7 · 30–40 min</small>
-                </div>
-            </div>
-            </div>
-            <div className="col-sm-6 col-lg-4">
-            <div className="card bg-dark h-100">
-                <div className="restaurant-img rounded-top">🍜</div>
-                <div className="card-body">
-                <div className="d-flex justify-content-between align-items-start mb-1">
-                    <h6 className="font-brand fw-bold mb-0">Noodle House</h6>
-                </div>
-                <small className="text-secondary d-block mb-2">
-                    Asian · Noodles · ₹120–₹350
-                </small>
-                <small className="text-warning">★★★★★</small>
-                <small className="text-secondary ms-1">4.8 · 20–30 min</small>
-                </div>
-            </div>
-            </div>
+            {
+                loading?(
+                    <div className="text-center">
+                        <Spinner animation='border' variant='secondary'/>
+                    </div>
+                )
+                :
+                    restaurantList.length>0?(
+                        restaurantList.map(rest=>(
+                            <div key={rest._id} className="col-sm-6 col-lg-4">
+                                <div className="card bg-dark h-100">
+                                    <img
+                                        src={`${SERVER_URL}/uploads/others/${rest.image}`}
+                                        alt={rest.name}
+                                        className="restaurant-img rounded-top"
+                                        style={{ height: "200px", objectFit: "cover" }}
+                                    />
+                                    <div className="card-body">
+                                    <div className="d-flex justify-content-between align-items-start mb-1">
+                                        <h6 className="font-brand text-white fw-bold mb-0">{rest.name}</h6>
+                                        {rest.isActive && (
+                                            <span className="badge bg-primary">Open</span>
+                                        )}
+                                    </div>
+                                    <small className="text-secondary d-block mb-2">
+                                        {rest.cuisine} · {rest.address?.city} . {rest.description}
+                                    </small>
+                                     <Link
+                                        to={`/foodmenu-details/${rest._id}`}
+                                        className="btn btn-outline-primary btn-sm mt-2"
+                                        >
+                                        View Menu
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )
+                    : (
+                        <p className="text-secondary">No restaurants available...</p>
+                    ) 
+            }
+            
         </div>
         </div>
     </section>
