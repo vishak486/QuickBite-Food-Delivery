@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAllCategories, fetchAllCategoriesForRestAdmin } from '../redux/slices/categorySlice'
-import { addFood, fetchAllFoods } from '../redux/slices/foodSlice'
+import { addFood, fetchAllFoods, fetchEachFoodsCreatedByEachRestaurant } from '../redux/slices/foodSlice'
 
 const RestaurantAddFood = () => {
   const dispatch=useDispatch()
@@ -43,7 +43,7 @@ const RestaurantAddFood = () => {
       formData.append("image",image)
 
       dispatch(addFood(formData)).then(()=>{
-        dispatch(fetchAllFoods(""))
+        dispatch(fetchEachFoodsCreatedByEachRestaurant(""))
       })
       handleClose()
     }

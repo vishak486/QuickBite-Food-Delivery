@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { fetchFoodsByRestaurant } from '../redux/slices/foodSlice'
 import { SERVER_URL } from "../config"
 import { Spinner } from 'react-bootstrap'
-Spinner
+
 
 const RestaurantMenuDetails = () => {
     const dispatch=useDispatch()
@@ -45,11 +45,9 @@ const RestaurantMenuDetails = () => {
                                              <p className="small text-secondary">{food.description}</p>
                                              <p className="fw-semibold">₹{food.price}</p>
                                              {user ? (
-                                                <button
-                                                    className="btn btn-primary btn-sm"
-                                                >
+                                                <Link to={'/customer-cart'} className="btn btn-primary btn-sm">
                                                     Add to Cart
-                                                </button>
+                                                </Link>
                                                 ) : (
                                                 <button className="btn btn-secondary btn-sm" disabled>
                                                     Login to Add

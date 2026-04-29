@@ -101,8 +101,9 @@ const foodSlice=createSlice({
         .addCase(addFood.pending,(state)=>{
             state.loading=true
         })
-        .addCase(addFood.fulfilled,(state)=>{
+        .addCase(addFood.fulfilled,(state,action)=>{
             state.loading=false
+            state.foodList=action.payload
         })
         .addCase(addFood.rejected,(state,action)=>{
             state.loading=false

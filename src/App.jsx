@@ -19,6 +19,7 @@ import RestaurantDashboard from './pages/RestaurantDashboard'
 import RestaurantManageMenu from './pages/RestaurantManageMenu'
 import RestaurantManageProfile from './pages/RestaurantManageProfile'
 import RestaurantMenuDetails from './pages/RestaurantMenuDetails'
+import CartManage from './pages/CartManage'
 
 
 function App() {
@@ -49,6 +50,10 @@ function App() {
             <Route path='/restaurant' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantDashboard/></ProtectedRoute>}/>
             <Route path='/restaurant-menu' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantManageMenu/></ProtectedRoute>}/>
             <Route path='/restaurant-manage-profile' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantManageProfile/></ProtectedRoute>} />
+
+            {/* Customer Routes */}
+            <Route path='/customer-cart' element={<ProtectedRoute allowedRole="customer"><CartManage/></ProtectedRoute>} />
+
         </Routes>
         {!hideLayout && <Footer/>}
 
