@@ -4,7 +4,8 @@ import { Link, useParams } from 'react-router-dom'
 import { fetchFoodsByRestaurant } from '../redux/slices/foodSlice'
 import { SERVER_URL } from "../config"
 import { Spinner } from 'react-bootstrap'
-
+import { addToCart } from '../redux/slices/cartSlice'
+import { toast } from 'react-toastify'
 
 const RestaurantMenuDetails = () => {
     const dispatch=useDispatch()
@@ -45,9 +46,11 @@ const RestaurantMenuDetails = () => {
                                              <p className="small text-secondary">{food.description}</p>
                                              <p className="fw-semibold">₹{food.price}</p>
                                              {user ? (
-                                                <Link to={'/customer-cart'} className="btn btn-primary btn-sm">
+                                                <button onClick={()=>dispatch(addToCart({ foodId: food._id, quantity: 1 }))
+                                                .unwrap().then(() => toast.success("Added to Cart Successfully")).catch(() => toast.error("Failed to Add to Cart"))
+                                                } className="btn btn-primary btn-sm">
                                                     Add to Cart
-                                                </Link>
+                                                </button>
                                                 ) : (
                                                 <button className="btn btn-secondary btn-sm" disabled>
                                                     Login to Add

@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { logout } from '../redux/slices/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { getCart } from '../redux/slices/cartSlice'
 
 const Header = () => {
     const dispatch=useDispatch()
     const {user}=useSelector(state=>state.auth)
+    const { cartList } = useSelector((state) => state.cart);
+    useEffect(()=>{
+        if (user) {
+        dispatch(getCart());
+        }
+    },[dispatch, user])
     const handleLogout=()=>{
         dispatch(logout())
     }
+    const cartCount = cartList?.items ? cartList.items.length : 0;
   return (
     <>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary sticky-top">
@@ -41,12 +49,17 @@ const Header = () => {
             {
                 user?(
                     <>
-                    <a href="#" className="text-light position-relative">
+                    <Link to={'/customer-cart'} className="text-light position-relative">
                         <i className="bi bi-bag fs-5" />
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"style={{ fontSize: 10 }}>
-                            3
-                        </span>
-                    </a>
+                        {cartCount > 0 && (
+                            <span
+                            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
+                            style={{ fontSize: 10 }}
+                            >
+                            {cartCount}
+                            </span>
+                        )}
+                    </Link>
                     <span className="text-light small fw-semibold">
                     {user.name}
                     </span>

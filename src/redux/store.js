@@ -5,6 +5,7 @@ import userReducer from './slices/userSlice'
 import adminDashboardReducer  from './slices/adminDashboardSlice'
 import restaurantReducer from './slices/restaurantSlice'
 import foodReducer from './slices/foodSlice'
+import cartReducer from './slices/cartSlice'
 
 export const store=configureStore({
     reducer:{
@@ -14,5 +15,6 @@ export const store=configureStore({
         adminDashboard: adminDashboardReducer,
         restaurant: restaurantReducer,
         food:foodReducer,
+        cart:cartReducer,
     }
 })

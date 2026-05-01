@@ -20,6 +20,8 @@ import RestaurantManageMenu from './pages/RestaurantManageMenu'
 import RestaurantManageProfile from './pages/RestaurantManageProfile'
 import RestaurantMenuDetails from './pages/RestaurantMenuDetails'
 import CartManage from './pages/CartManage'
+import { ToastContainer, toast } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
@@ -28,6 +30,7 @@ function App() {
 
   return (
     <>
+        <ToastContainer position="top-right" autoClose={2000} />
         {!hideLayout &&<Header/>}
         <Routes>
             <Route path='/' element={<Home/>} />
