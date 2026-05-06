@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCart } from '../redux/slices/cartSlice'
+import { getCart, removeCartItem, updateCart } from '../redux/slices/cartSlice'
 import { Spinner } from 'react-bootstrap'
 import { SERVER_URL } from "../config"
 
@@ -63,12 +63,19 @@ const CartManage = () => {
 
             <div className="d-flex align-items-center">
               {/* Quantity controls */}
-              <button className="btn btn-sm btn-outline-secondary me-2">-</button>
+              <button className="btn btn-sm btn-outline-secondary me-2"
+              onClick={()=>dispatch(updateCart({foodId:item.food._id,quantity: item.quantity - 1,}))}
+              disabled={item.quantity<=1}
+              >-</button>
               <span className="mx-2">{item.quantity}</span>
-              <button className="btn btn-sm btn-outline-secondary me-3">+</button>
+              <button className="btn btn-sm btn-outline-secondary me-3"
+              onClick={()=>dispatch(updateCart({foodId:item.food._id,quantity: item.quantity + 1,}))}
+              >+</button>
 
               <strong className="me-3">₹{item.quantity * item.food.price}</strong>
-              <button className="btn btn-sm btn-outline-danger">Remove</button>
+              <button className="btn btn-sm btn-outline-danger"
+              onClick={() => dispatch(removeCartItem(item.food._id))}
+              >Remove</button>
             </div>
               </li>
             ))
