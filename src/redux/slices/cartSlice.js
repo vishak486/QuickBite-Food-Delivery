@@ -35,6 +35,13 @@ export const removeCartItem =createAsyncThunk("cart/removeCartItem",async(foodId
     )
     return response.data
 })
+export const clearCart = createAsyncThunk("cart/clearCart", async () => {
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(`${SERVER_URL}/customer/clearCart`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+});
 
 const cartSlice=createSlice({
     name:"cart",
@@ -95,7 +102,12 @@ const cartSlice=createSlice({
         .addCase(removeCartItem.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
-        });
+        })
+        // Clear Cart
+        .addCase(clearCart.fulfilled, (state) => {
+            state.loading = false;
+            state.cartList = [];
+        })
     }
 })
 

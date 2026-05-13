@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCart, removeCartItem, updateCart } from '../redux/slices/cartSlice'
 import { Spinner } from 'react-bootstrap'
 import { SERVER_URL } from "../config"
+import { useNavigate } from 'react-router-dom'
 
 const CartManage = () => {
   const dispatch=useDispatch()
+  const navigate=useNavigate()
   const { cartList, loading, error } = useSelector((state) => state.cart);
   useEffect(() => {
     dispatch(getCart());
@@ -91,7 +93,7 @@ const CartManage = () => {
         <div className="card shadow-sm">
           <div className="card-body d-flex justify-content-between align-items-center">
             <h5 className="mb-0">Total: ₹{cartList.totalAmount}</h5>
-            <button className="btn btn-primary btn-lg">Proceed to Checkout</button>
+            <button onClick={()=>navigate('/customer-checkout')} className="btn btn-primary btn-lg">Proceed to Checkout</button>
           </div>
         </div>
       )}
