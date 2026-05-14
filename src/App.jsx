@@ -23,6 +23,7 @@ import CartManage from './pages/CartManage'
 import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import Checkout from './pages/Checkout'
+import CustomerOrders from './pages/CustomerOrders'
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
             {/* Customer Routes */}
             <Route path='/customer-cart' element={<ProtectedRoute allowedRole="customer"><CartManage/></ProtectedRoute>} />
             <Route path='/customer-checkout' element={<ProtectedRoute allowedRole="customer"><Checkout/></ProtectedRoute>}/>
+            <Route path='/customer-orders' element={<ProtectedRoute allowedRole="customer"><CustomerOrders/></ProtectedRoute>} />
 
         </Routes>
         {!hideLayout && <Footer/>}

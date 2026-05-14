@@ -60,6 +60,9 @@ const Header = () => {
                             </span>
                         )}
                     </Link>
+                    <Link className="nav-link px-3" to={'/customer-orders'}>
+                        Order History
+                    </Link>
                     <span className="text-light small fw-semibold">
                     {user.name}
                     </span>

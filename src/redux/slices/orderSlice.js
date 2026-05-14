@@ -19,11 +19,32 @@ export const verifyPayment =createAsyncThunk("order/verifyPayment",async({ razor
     return response.data
 })
 
+export const getCustomerOrders=createAsyncThunk('order/getCustomerOrders',async()=>{
+  const token=localStorage.getItem('token')
+  const response=await axios.get(`${SERVER_URL}/customer/orders`,{
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return response.data
+})
+
+export const getCustomerOrderDetail=createAsyncThunk('order/getCustomerOrderDetail',async(orderId)=>{
+  const token=localStorage.getItem('token')
+  const response=await axios.get(`${SERVER_URL}/customer/orders/${orderId}`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  )
+  return response.data
+})
+
 const orderSlice=createSlice({
     name:"order",
     initialState:{
         currentOrder: null,
+        orders: [],
+        selectedOrder: null,
         loading:false,
+        detailLoading: false,
         error:null,
         paymentVerified: false,
     },
@@ -47,7 +68,6 @@ const orderSlice=createSlice({
       })
 
       // Verify Payment
-    builder
       .addCase(verifyPayment.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -62,6 +82,33 @@ const orderSlice=createSlice({
         state.error = action.payload;
         state.paymentVerified = false;
       })
+      // Get Customer Orders
+      .addCase(getCustomerOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCustomerOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload;
+      })
+      .addCase(getCustomerOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      // Get Order Detail
+      .addCase(getCustomerOrderDetail.pending, (state) => {
+        state.detailLoading  = true;
+        state.error = null;
+      })
+      .addCase(getCustomerOrderDetail.fulfilled, (state, action) => {
+        state.detailLoading  = false;
+        state.selectedOrder = action.payload;
+      })
+      .addCase(getCustomerOrderDetail.rejected, (state, action) => {
+        state.detailLoading  = false;
+        state.error = action.error.message;
+      })
+
     }
 })
 
