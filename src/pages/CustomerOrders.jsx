@@ -90,7 +90,11 @@ const CustomerOrders = () => {
             </div>
 
             {/* Order Detail Modal */}
-            <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered scrollable>
+            <Modal show={showModal} onHide={() => {
+                setShowModal(false) 
+                dispatch(getCustomerOrders())}
+                } 
+            size="lg" centered scrollable>
                 <Modal.Header closeButton>
                     <Modal.Title>Order Details</Modal.Title>
                 </Modal.Header>

@@ -37,6 +37,23 @@ export const getCustomerOrderDetail=createAsyncThunk('order/getCustomerOrderDeta
   return response.data
 })
 
+export const getRestaurantOrders = createAsyncThunk('order/getRestaurantOrders', async () => {
+    const token = localStorage.getItem('token')
+    const response = await axios.get(`${SERVER_URL}/restaurant/orders`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    return response.data
+})
+
+export const updateOrderStatus = createAsyncThunk('order/updateOrderStatus', async ({ orderId, orderStatus }) => {
+    const token = localStorage.getItem('token')
+    const response = await axios.put(`${SERVER_URL}/restaurant/orders/${orderId}/status`,
+        { orderStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+    )
+    return response.data
+})
+
 const orderSlice=createSlice({
     name:"order",
     initialState:{
@@ -47,6 +64,8 @@ const orderSlice=createSlice({
         detailLoading: false,
         error:null,
         paymentVerified: false,
+        restaurantOrders: [],
+        statusUpdating: false,
     },
     reducers:{
 
@@ -107,6 +126,36 @@ const orderSlice=createSlice({
       .addCase(getCustomerOrderDetail.rejected, (state, action) => {
         state.detailLoading  = false;
         state.error = action.error.message;
+      })
+
+      // Get Restaurant Orders
+      .addCase(getRestaurantOrders.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+      })
+      .addCase(getRestaurantOrders.fulfilled, (state, action) => {
+          state.loading = false;
+          state.restaurantOrders = action.payload;
+      })
+      .addCase(getRestaurantOrders.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.error.message;
+      })
+      // Update Order Status
+      .addCase(updateOrderStatus.pending, (state) => {
+          state.statusUpdating = true;
+      })
+      .addCase(updateOrderStatus.fulfilled, (state, action) => {
+          state.statusUpdating = false;
+          // update the order in the list
+          const index = state.restaurantOrders.findIndex(o => o._id === action.payload._id);
+          if (index !== -1) {
+              state.restaurantOrders[index] = action.payload;
+          }
+      })
+      .addCase(updateOrderStatus.rejected, (state, action) => {
+          state.statusUpdating = false;
+          state.error = action.error.message;
       })
 
     }

@@ -24,6 +24,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import Checkout from './pages/Checkout'
 import CustomerOrders from './pages/CustomerOrders'
+import RestaurantOrders from './pages/RestaurantOrders'
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
             <Route path='/restaurant' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantDashboard/></ProtectedRoute>}/>
             <Route path='/restaurant-menu' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantManageMenu/></ProtectedRoute>}/>
             <Route path='/restaurant-manage-profile' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantManageProfile/></ProtectedRoute>} />
+            <Route path='/restaurant-orders' element={<ProtectedRoute allowedRole="restaurant_admin"><RestaurantOrders/></ProtectedRoute>} />
 
             {/* Customer Routes */}
             <Route path='/customer-cart' element={<ProtectedRoute allowedRole="customer"><CartManage/></ProtectedRoute>} />

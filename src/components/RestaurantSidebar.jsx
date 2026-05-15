@@ -52,7 +52,7 @@ const RestaurantSidebar = ({ title }) => {
             <i className="bi bi-journal-text" /> Manage Menu
           </NavLink>
 
-          <NavLink to="/restaurant/orders"
+          <NavLink to="/restaurant-orders"
             className={({ isActive }) =>
               `nav-link rest-sidebar-link rounded-2 py-2 px-3 d-flex align-items-center gap-2 ${
                 isActive ? 'active text-light' : 'text-secondary'
