@@ -123,39 +123,7 @@ const AdminDashboard = () => {
               }
             </div>
           </div>
-          {/* Recent orders */}
-          <div className="col-lg-6">
-            <div className="card bg-dark border p-3">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h6 className="fw-bold mb-0">Recent Orders</h6>
-                <a href="#" className="btn btn-outline-secondary btn-sm" onclick="show('orders')">View All</a>
-              </div>
-              <div className="table-responsive">
-                <table className="table table-dark table-borderless align-middle small mb-0">
-                  <thead className="border-bottom border-secondary text-secondary">
-                    <tr><th>ID</th><th>Customer</th><th>Restaurant</th><th>Amount</th><th>Status</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>#QB1024</td><td>Arjun P.</td><td>Burger Palace</td>
-                      <td className="fw-semibold">₹640</td>
-                      <td><span className="badge bg-warning text-dark">Preparing</span></td>
-                    </tr>
-                    <tr>
-                      <td>#QB1023</td><td>Priya S.</td><td>Pizza Fiesta</td>
-                      <td className="fw-semibold">₹480</td>
-                      <td><span className="badge bg-info">On the way</span></td>
-                    </tr>
-                    <tr>
-                      <td>#QB1022</td><td>Rohit V.</td><td>Noodle House</td>
-                      <td className="fw-semibold">₹320</td>
-                      <td><span className="badge bg-success">Delivered</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
 

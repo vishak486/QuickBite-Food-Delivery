@@ -34,7 +34,6 @@ const AdminSidebar = ({ title }) => {
           <div className="fw-bold fs-5 mb-1">
             Quick<span style={{ color: 'var(--admin)' }}>Bite</span>
           </div>
-          <small className="text-secondary">Platform Admin</small>
         </div>
 
         <nav className="nav flex-column gap-1 px-2">

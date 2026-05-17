@@ -54,6 +54,16 @@ export const updateOrderStatus = createAsyncThunk('order/updateOrderStatus', asy
     return response.data
 })
 
+
+// Admin Get All Orders
+export const getAllOrders = createAsyncThunk('order/getAllOrders', async () => {
+    const token = localStorage.getItem('token')
+    const response = await axios.get(`${SERVER_URL}/admin/orders`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    return response.data
+})
+
 const orderSlice=createSlice({
     name:"order",
     initialState:{
@@ -66,6 +76,7 @@ const orderSlice=createSlice({
         paymentVerified: false,
         restaurantOrders: [],
         statusUpdating: false,
+        allOrders: [],
     },
     reducers:{
 
@@ -157,6 +168,20 @@ const orderSlice=createSlice({
           state.statusUpdating = false;
           state.error = action.error.message;
       })
+
+      // Admin Get All Orders
+      .addCase(getAllOrders.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+      })
+      .addCase(getAllOrders.fulfilled, (state, action) => {
+          state.loading = false;
+          state.allOrders = action.payload;
+      })
+      .addCase(getAllOrders.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.error.message;
+      }) 
 
     }
 })
