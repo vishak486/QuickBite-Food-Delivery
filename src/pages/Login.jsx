@@ -17,12 +17,12 @@ const Login = () => {
     const handleSubmit=async(e)=>{
         e.preventDefault()
         const result= await dispatch(loginUser(form))
-        console.log('login result:', result)
+        //console.log('login result:', result)
         if(loginUser.fulfilled.match(result))
         {
             const { token }=result.payload
             const role=result.payload.user.role
-            console.log('token: ',token);
+            //console.log('token: ',token);
             
             if(role==='admin')
             {

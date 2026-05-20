@@ -10,7 +10,7 @@ const RestaurantUpdateFood = ({food}) => {
     const [foodData,setFoodData]=useState({
     foodId:food._id,name:food.name,description:food.description,price:food.price,categoryID:food.category?._id || "",image:null,type:"foods"
     })
-    console.log(foodData);
+    //console.log(foodData);
     
     const{categoryList,loading,error}=useSelector((state)=>state.category)
     const handleShow = () => setShow(true)

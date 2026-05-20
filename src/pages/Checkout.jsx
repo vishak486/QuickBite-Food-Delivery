@@ -48,9 +48,9 @@ const Checkout = () => {
                 await dispatch(clearCart());
                 setAddress({ street: "",city: "",state: "",pincode: "",landmark: "" })        
                 navigate('/customer-orders');
-                console.log("✅ verifyPayment dispatched successfully");
+                //console.log("✅ verifyPayment dispatched successfully");
                 } catch (err) {
-                console.error("❌ Error in verifyPayment dispatch:", err);
+                //console.error("❌ Error in verifyPayment dispatch:", err);
                 }
             },
              prefill: {
@@ -69,16 +69,16 @@ const Checkout = () => {
             },
             },
         }
-        console.log("Razorpay options:", options);
+        //console.log("Razorpay options:", options);
         const rzp = new window.Razorpay(options);
         rzp.on("payment.failed", function (response) {
-        console.error("❌ Payment failed:", response.error);
+        //console.error("❌ Payment failed:", response.error);
         });
         rzp.open();
         }
         catch(err)
         {
-            console.error("Error in handlePay:", err);
+            //console.error("Error in handlePay:", err);
         } 
     }
   return (

@@ -3,20 +3,26 @@ import AdminSidebar from '../components/AdminSidebar'
 import { useDispatch, useSelector } from 'react-redux'
 import { FetchAllUsers } from '../redux/slices/userSlice'
 import { Spinner } from 'react-bootstrap'
-import { approveRestaurantAdmin, rejectRestaurantAdmin } from '../redux/slices/adminDashboardSlice'
+import { approveRestaurantAdmin, getAdminDashboardStats, rejectRestaurantAdmin } from '../redux/slices/adminDashboardSlice'
 
 const AdminDashboard = () => {
   const dispatch=useDispatch()
   const {userList,loading}=useSelector((state)=>state.user)
+  const { stats, loading:statsLoading  } = useSelector((state) => state.adminDashboard)
 
   const pendingRestAdmins=userList.filter(
     (user)=>user.role==="restaurant_admin"&&user.isApproved===false
   )
-  console.log(userList);
+  //console.log(userList);
   
   useEffect(()=>{
    dispatch( FetchAllUsers())
   },[])
+
+  useEffect(() => {
+        dispatch(getAdminDashboardStats())
+    }, [dispatch])
+
    const handleApprove = async (id) => {
     await dispatch(approveRestaurantAdmin(id))
     dispatch(FetchAllUsers({ role: 'restaurant_admin' }))
@@ -39,11 +45,10 @@ const AdminDashboard = () => {
               <div className="d-flex justify-content-between align-items-start">
                 <div>
                   <small className="text-secondary">Total Restaurants</small>
-                  <div className="fw-bold fs-3 mt-1">128</div>
+                  <div className="fw-bold fs-3 text-danger mt-1">{statsLoading  ? '...' : stats?.totalRestaurants ?? 0}</div>
                 </div>
-                <div className="btn btn-admin btn-sm rounded-3 px-2"><i className="bi bi-shop" /></div>
+                <div className="btn btn-danger btn-sm  rounded-3 px-2"><i className="bi bi-shop" /></div>
               </div>
-              <small className="text-success mt-2"><i className="bi bi-arrow-up" /> +6 this week</small>
             </div>
           </div>
           <div className="col-sm-6 col-xl-3">
@@ -51,11 +56,10 @@ const AdminDashboard = () => {
               <div className="d-flex justify-content-between align-items-start">
                 <div>
                   <small className="text-secondary">Total Users</small>
-                  <div className="fw-bold fs-3 mt-1">52.4K</div>
+                  <div className="fw-bold fs-3 text-success mt-1">{statsLoading  ? '...' : stats?.totalUsers ?? 0}</div>
                 </div>
                 <div className="btn btn-success btn-sm rounded-3 px-2"><i className="bi bi-people" /></div>
               </div>
-              <small className="text-success mt-2"><i className="bi bi-arrow-up" /> +240 today</small>
             </div>
           </div>
           <div className="col-sm-6 col-xl-3">
@@ -63,11 +67,10 @@ const AdminDashboard = () => {
               <div className="d-flex justify-content-between align-items-start">
                 <div>
                   <small className="text-secondary">Total Orders</small>
-                  <div className="fw-bold fs-3 mt-1">2.1M</div>
+                  <div className="fw-bold fs-3 text-white mt-1">{statsLoading  ? '...' : stats?.totalOrders ?? 0}</div>
                 </div>
                 <div className="btn btn-warning btn-sm rounded-3 px-2"><i className="bi bi-bag" /></div>
               </div>
-              <small className="text-success mt-2"><i className="bi bi-arrow-up" /> +1.2K today</small>
             </div>
           </div>
           <div className="col-sm-6 col-xl-3">
@@ -75,11 +78,10 @@ const AdminDashboard = () => {
               <div className="d-flex justify-content-between align-items-start">
                 <div>
                   <small className="text-secondary">Pending Approvals</small>
-                  <div className="fw-bold fs-3 mt-1 text-warning">12</div>
+                  <div className="fw-bold fs-3 mt-1 text-warning">{statsLoading  ? '...' : stats?.pendingApprovals ?? 0}</div>
                 </div>
                 <div className="btn btn-danger btn-sm rounded-3 px-2"><i className="bi bi-clock-history" /></div>
               </div>
-              <small className="text-warning mt-2"><i className="bi bi-exclamation-circle" /> Needs review</small>
             </div>
           </div>
         </div>

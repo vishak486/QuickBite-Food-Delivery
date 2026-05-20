@@ -9,7 +9,7 @@ import AdminEditCategories from '../components/AdminEditCategories'
 const AdminManageCategories = () => {
     const dispatch=useDispatch()
     const{categoryList,loading,error}=useSelector((state)=>state.category)
-console.log(categoryList);
+//console.log(categoryList);
 useEffect(()=>{
     dispatch(fetchAllCategories())
 },[])
