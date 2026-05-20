@@ -1,1 +1,1 @@
-export const SERVER_URL = "http://localhost:3000";
+export const SERVER_URL = "https://food-delivery-server-p6m5.onrender.com";
